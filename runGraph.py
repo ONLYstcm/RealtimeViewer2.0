@@ -1,20 +1,29 @@
 import os
 import matplotlib.pyplot as plt
 import numpy as np
+from matplotlib.animation import FuncAnimation
 
 class Spectrogram:
-	def __init__(self, xVals, yVals):
-		self.xVals = xVals
-		self.yVals = yVals
-		self.fig, self.ax = plt.subplots()
+	xVals = None
+	yVals = None
+	fig = None
+	ax = None
+	def initFig():
+		Spectrogram.fig, Spectrogram.ax = plt.subplots()
+
+	def setVals(xVals, yVals):
+		Spectrogram.xVals = xVals
+		Spectrogram.yVals = yVals
 
 	#Creates Spectrogram Line Plot
-	def specPlot(self):
-		self.ax.plot(self.xVals, self.yVals, c='b')
-		self.ax.set_title('Spectrogram')
-		self.ax.set_xlabel('Frequency (Hz)')
-		self.ax.set_ylabel('Intensity (dB)')
+	def specPlot():
+		Spectrogram.ax.plot(Spectrogram.xVals, Spectrogram.yVals, c='b', animated=True)
+		Spectrogram.ax.set_title('Spectrogram')
+		Spectrogram.ax.set_xlabel('Frequency (Hz)')
+		Spectrogram.ax.set_ylabel('Intensity (dB)')
 		#self.ax.set_ylim(top=70)
 
-	def dispPlot():
-		plt.show()
+	#def dispPlot():
+	#	plt.ion()
+	#	plt.show()
+	#	plt.pause(1)
