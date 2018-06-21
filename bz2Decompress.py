@@ -7,10 +7,12 @@ def decomp(path):
 	filename = path.split('/')[-1]
 	folder = '/'.join(path.split('/')[:-1])
 	#print(filename[:-4], folder)
-	newfilepath = path + '.decompressed'
-	with open(newfilepath, 'wb') as new_file, bz2.BZ2File(path, 'rb') as file:
+	decompPath = path + '.decompressed'
+	with open(decompPath, 'wb') as new_file, bz2.BZ2File(path, 'rb') as file:
 		for data in iter(lambda: file.read(100 * 1024), b''):
 			new_file.write(data)
-	os.rename(newfilepath, folder + '/' + filename[:-4])
+	newPath = folder + '/' + filename[:-4]
+	os.rename(decompPath, newPath)
+	return newPath
 
-decomp('C:/Users/William Cen/Documents/pol0.scio.bz2')
+#decomp('C:/Users/William Cen/Documents/pol0.scio.bz2')

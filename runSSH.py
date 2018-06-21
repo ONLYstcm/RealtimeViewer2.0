@@ -22,6 +22,7 @@ class ssh:
 					print(str(alldata, "utf8"))
 		else:
 			print("Connection not opened.")
+		return stdout
 
-connection1 = ssh("199.88.192.160", "<USERNAME>", "<PASSWORD>")
-connection1.sendCommand("mkdir testfolder")
+#connection1 = ssh("199.88.192.160", "<USERNAME>", "<PASSWORD>")
+#connection1.sendCommand("mkdir testfolder")
