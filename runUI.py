@@ -40,10 +40,6 @@ def viewerUI(path): #Path should be the compressed pol0.scio.bz2
 	'''
 
 	#This converts the .scio file components to an array that we can graph
-	#scioArr = openScio.scioRead('D:/pol0.scio')
-	#scioArr = openScio.scioRead('C:/Users/William Cen/Desktop/PRIZM-RTSA-master/pol0.scio')
-	#scioArr = openScio.scioRead('C:/Users/William Cen/Documents/Green Bank Stuff/data_70MHz/15294/1529450985/pol0.scio')
-	#scioArr = openScio.scioRead('C:/Users/William Cen/Documents/pol0.scio')
 	scioArr = openScio.scioRead(fScio)
 
 	#This returns the values we need for the x axis (frequencies)
@@ -114,5 +110,3 @@ staticRun()
 #ani = FuncAnimation(runGraph.Spectrogram.fig, viewerUI(), init_func = init, interval=500, blit=False)
 #LEARN TO DECOMPRESS TAR.GZ AND .BZ2 FILES OR FIND SOME WAY TO GRAPH THOSE FILES. "MIGHT JUST BE BECAUSE JOSE COMPRESSED THEM. THEY ARE PROBABLY ALREADY IN SCIO FORMAT"
 #USE SCP BECAUSE SOCKETS ONLY REQUEST REQUEST FILES BUT NOT CHECK IF ITS NEW
-
-#C:/Users/William Cen/Documents/Green Bank Stuff/data_70MHz/15294
