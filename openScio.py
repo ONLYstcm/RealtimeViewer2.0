@@ -40,7 +40,7 @@ def int2dtype(myint):
     if (myint==-108):
         return 'uint64'
 
-x = scioRead('D:/pol0.scio')
+#x = scioRead('D:/pol0.scio')
 
 #print(type(x))
-print(x)
+#print(len(x))
