@@ -16,7 +16,10 @@ import os
 
 def init():
 	#Creates folder for holding the python file in main directory
-	os.mkdir(os.getcwd() + '/' + 'pol0scio')
+	try:
+		os.mkdir(os.getcwd() + '/' + 'pol0scio')
+	except:
+		pass
 	runGraph.Spectrogram.initFig()
 
 def timeSort(path): #Thanks to https://stackoverflow.com/questions/4500564/directory-listing-based-on-time
@@ -73,7 +76,7 @@ def update():
 	#SSH
 	newConnection = runSSH.ssh('10.0.0.1', 'pi', 'raspberry')
 	#This copies the latest file over to your root directory
-	newConnection.sendCommand("cd " + sendCommand("ls data_70MHz/" + sendCommand("ls data_70MHz | tail -2 | head -1 |") + " " + "| tail -1") + " && " + "scp pol0.scio os.getcwd()" + '/' + 'pol0scio')
+	newConnection.sendCommand("cd " + newConnection.sendCommand("ls data_70MHz/" + newConnection.sendCommand("ls data_70MHz | tail -2 | head -1 |") + " " + "| tail -1") + " && " + "scp pol0.scio os.getcwd()" + '/' + 'pol0scio')
 
 	#This is where the scp occurs
 	#This should re-run viewer function with different input
@@ -97,7 +100,12 @@ def update():
 			sFile = file
 	scioPath = fPath + '/' + sFile
 	'''
-
+	sFile = ''
+	latest = os.getcwd() + '/' + 'pol0scio'
+	for file in os.listdir(latest):
+		if 'pol0.scio' in file:
+			sFile = file
+	scioPath = 'latest' + '/' + sFile
 	viewerUI(scioPath)
 
 

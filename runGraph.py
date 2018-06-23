@@ -27,3 +27,5 @@ class Spectrogram:
 	#	plt.ion()
 	#	plt.show()
 	#	plt.pause(1)
+
+#Spectrogram.initFig()
