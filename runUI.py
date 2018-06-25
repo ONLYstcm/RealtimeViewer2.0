@@ -11,7 +11,7 @@ from matplotlib.animation import FuncAnimation
 import paramiko
 import os
 #import time, sched
-#import bz2Decompress as b2
+import bz2Decompress as b2
 
 
 def init():
@@ -28,9 +28,12 @@ def timeSort(path): #Thanks to https://stackoverflow.com/questions/4500564/direc
 
 def viewerUI(path): #Path should be the compressed pol0.scio.bz2
 	#Decompress pol0.scio.bz2 file
-	fScio = b2.decomp(path)
-
+	try:
+		fScio = b2.decomp(path) #Not needed unless it is compressed
+	except:
+		fScio = path
 	#Put this entire thing in a loop
+
 	'''
 	s = sched.scheduler(time.time, time.sleep)
 	def do_something(sc): 
@@ -72,12 +75,19 @@ def viewerUI(path): #Path should be the compressed pol0.scio.bz2
 	#plt.pause(1)
 
 #update should do the thing that changes what happens in the viewerUI function. This should re-run by the FuncAnimation, so it should work with a global variable
-def update():	
+def update():
+	#In case using os.getcwd() while in ssh will yield different directory
+	direc = os.getcwd()	
 	#SSH
 	newConnection = runSSH.ssh('10.0.0.1', 'pi', 'raspberry')
+	#Opens shell
+	#newConnection.openShell()
 	#This copies the latest file over to your root directory
-	newConnection.sendCommand("cd " + newConnection.sendCommand("ls data_70MHz/" + newConnection.sendCommand("ls data_70MHz | tail -2 | head -1 |") + " " + "| tail -1") + " && " + "scp pol0.scio os.getcwd()" + '/' + 'pol0scio')
-
+	#newConnection.sendCommand("cd " + str(newConnection.sendCommand("ls data_70MHz/" + str(newConnection.sendCommand("ls data_70MHz | tail -2 | head -1 |")) + " " + "| tail -1")) + " && " + "scp pol0.scio.bz2 " + os.getcwd() + '/' + 'pol0scio')
+	
+	#Issues: Using str on the stdout return doesn't do anything except give some huge message
+	newConnection.sendCommand('cd data_70MHz' " && " 'cd ' + str(newConnection.sendCommand("ls | tail -2 | head -1")) + " && " 'cd ' + str(newConnection.sendCommand('ls | tail -1')) + " && " + "scp pol0.scio " + direc + '/' + 'pol0scio') #Ask if os.getcwd() will work outside of the bash and in the local machine
+	#The above will not work because if it is completed, it will be in .scio.bz2 format.
 	#This is where the scp occurs
 	#This should re-run viewer function with different input
 	#Diff input is determined by latest directory (the 15030) and the latest directory in that (150305414) and then pull out the scio file
@@ -105,7 +115,10 @@ def update():
 	for file in os.listdir(latest):
 		if 'pol0.scio' in file:
 			sFile = file
-	scioPath = 'latest' + '/' + sFile
+		else:
+			assert(False)
+	scioPath = latest + '/' + sFile
+	#print(scioPath)
 	viewerUI(scioPath)
 
 
@@ -118,3 +131,5 @@ staticRun()
 #ani = FuncAnimation(runGraph.Spectrogram.fig, viewerUI(), init_func = init, interval=500, blit=False)
 #LEARN TO DECOMPRESS TAR.GZ AND .BZ2 FILES OR FIND SOME WAY TO GRAPH THOSE FILES. "MIGHT JUST BE BECAUSE JOSE COMPRESSED THEM. THEY ARE PROBABLY ALREADY IN SCIO FORMAT"
 #USE SCP BECAUSE SOCKETS ONLY REQUEST REQUEST FILES BUT NOT CHECK IF ITS NEW
+
+#THE 11 ROWS FOR EACH SPECTRUM IS CREATED EVERY 4 SECONDS
