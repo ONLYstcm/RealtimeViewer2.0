@@ -18,7 +18,7 @@ class Spectrogram:
 
 	#Creates Spectrogram Line Plot
 	def specPlot():
-		Spectrogram.ax.plot(Spectrogram.xVals, Spectrogram.yVals, c='b', animated=True)
+		Spectrogram.ax.plot(Spectrogram.xVals, Spectrogram.yVals, c='b')#, animated=True)
 		Spectrogram.ax.set_title('Spectrogram')
 		Spectrogram.ax.set_xlabel('Frequency (Hz)')
 		Spectrogram.ax.set_ylabel('Intensity (dB)')
