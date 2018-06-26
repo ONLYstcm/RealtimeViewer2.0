@@ -13,6 +13,14 @@ import os
 #import time, sched
 import bz2Decompress as b2
 
+runGraph.Spectrogram.initFig()
+
+#fig, ax = plt.subplots()
+#xdata, ydata = [], []
+#ax.set_title('Spectrogram')
+#ax.set_xlabel('Frequency (Hz)')
+#ax.set_ylabel('Intensity (dB)')
+#line, = plt.plot(xdata, ydata, 'k', animated=True)
 
 def init():
     #Creates folder for holding the python file in main directory
@@ -20,7 +28,7 @@ def init():
         os.mkdir(os.getcwd() + '/' + 'pol0scio')
     except:
         print("Folder exists")
-    runGraph.Spectrogram.initFig()
+    #runGraph.Spectrogram.initFig()
 
 def timeSort(path): #Thanks to https://stackoverflow.com/questions/4500564/directory-listing-based-on-time
     mtime = lambda f: os.stat(os.path.join(path, f)).st_mtime
@@ -28,6 +36,8 @@ def timeSort(path): #Thanks to https://stackoverflow.com/questions/4500564/direc
 
 def viewerUI(path): #Path should be the compressed pol0.scio.bz2
     #Decompress pol0.scio.bz2 file
+    #global xdata, ydata
+
     if 'pol0.scio.bz2' in path:
         fScio = b2.decomp(path)
     else:
@@ -51,6 +61,7 @@ def viewerUI(path): #Path should be the compressed pol0.scio.bz2
 
     #This converts the .scio file components to an array that we can graph
     try:
+        #PROF DOESNT WANT AVERAGE. WANTS LATEST
         scioArr = openScio.scioRead(fScio)
 
         #This returns the values we need for the x axis (frequencies)
@@ -73,16 +84,15 @@ def viewerUI(path): #Path should be the compressed pol0.scio.bz2
             newArr += [sum([scioArr[j][i] for j in range(len(scioArr))])/len(scioArr)]
 
         #Generates new line plot
-        runGraph.Spectrogram.setVals(freq, newArr)
-        runGraph.Spectrogram.specPlot()
-        plt.show()
+        runGraph.Spectrogram.ax.clear()
+        runGraph.Spectrogram.ax.plot(freq, newArr)
     except:
         pass
     #plt.draw()
     #plt.pause(1)
 
 #update should do the thing that changes what happens in the viewerUI function. This should re-run by the FuncAnimation, so it should work with a global variable
-def update():
+def update(num):
     #In case using os.getcwd() while in ssh will yield different directory
     direc = os.getcwd() 
     #SSH
@@ -145,9 +155,10 @@ def staticRun(): #This is without the continuous animation so that you dont cras
     init()
     update()
 
-staticRun()
+#staticRun()
 
-#ani = FuncAnimation(runGraph.Spectrogram.fig, viewerUI(), init_func = init, interval=500, blit=False)
+ani = FuncAnimation(fig, update, init_func = init, interval=5000, blit=False) #runs every 5 seconds
+plt.show()
 #LEARN TO DECOMPRESS TAR.GZ AND .BZ2 FILES OR FIND SOME WAY TO GRAPH THOSE FILES. "MIGHT JUST BE BECAUSE JOSE COMPRESSED THEM. THEY ARE PROBABLY ALREADY IN SCIO FORMAT"
 #USE SCP BECAUSE SOCKETS ONLY REQUEST REQUEST FILES BUT NOT CHECK IF ITS NEW
 
