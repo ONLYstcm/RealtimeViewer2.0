@@ -165,7 +165,7 @@ def staticRun(): #This is without the continuous animation so that you dont cras
 
 #staticRun()
 
-ani = FuncAnimation(runGraph.Spectrogram.fig, update, init_func = init, interval=2000, blit=False) #runs every 5 seconds
+ani = FuncAnimation(runGraph.Spectrogram.fig, update, init_func = init, interval=2000, blit=False) #runs every 2000 milliseconds
 plt.show()
 #LEARN TO DECOMPRESS TAR.GZ AND .BZ2 FILES OR FIND SOME WAY TO GRAPH THOSE FILES. "MIGHT JUST BE BECAUSE JOSE COMPRESSED THEM. THEY ARE PROBABLY ALREADY IN SCIO FORMAT"
 #USE SCP BECAUSE SOCKETS ONLY REQUEST REQUEST FILES BUT NOT CHECK IF ITS NEW
