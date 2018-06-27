@@ -2,6 +2,10 @@
 #This is the Spectrogram UI. Run this to run the entire app#
 ############################################################
 
+#Do note that if a pol0.scio file already exists, the first graph may graph that data. However, as long as the experiment is running, that will change. 
+#It will graph new data on the first graph if the data transport is successful. Not a source of worry. The program will continue collecting the latest data every 2 seconds.
+
+
 import runSSH
 import runGraph
 import openScio
@@ -112,10 +116,12 @@ def update(num):
         #print(output1, output2)
         #output3 = newConnection.sendCommand('ls data_70MHz/' + output1 + '/' + output2)# + ' && ') #+ 'scp pol0.scio wcen2@10.0.0.19:C:/users/wcen2' + ' && ' + 'ls | tail -1')
         remotepath = '/home/pi/data_70MHz/' + output1 + '/' + output2 + '/pol0.scio'
+        print("Collecting data...")
         t = paramiko.Transport(('10.0.0.1', 22))
         t.connect(username='pi', password='raspberry')
         sftp = paramiko.SFTPClient.from_transport(t)
         sftp.get(remotepath, direc + '/' + 'pol0scio/' + 'pol0.scio')
+        print("Collected!")
         #print(output1, output2)
         #The above will not work because if it is completed, it will be in .scio.bz2 format.
         #This is where the scp occurs
@@ -141,7 +147,7 @@ def update(num):
         scioPath = fPath + '/' + sFile
         '''
     except:
-        pass
+        print("No new data, using latest data.")
     sFile = ''
     latest = os.getcwd() + '/' + 'pol0scio'
     if 'pol0.scio' in os.listdir(latest):

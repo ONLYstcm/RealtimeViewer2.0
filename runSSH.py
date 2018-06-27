@@ -19,14 +19,17 @@ class ssh:
                     while stdout.channel.recv_ready():
                         alldata += stdout.channel.recv(1024)
 
-                    print(str(alldata, "utf8"))
+                    #print(str(alldata, "utf8"))
         else:
             print("Connection not opened.")
             #print(stdout.read(), "     ", type(stdout.read()))
         #output = stdout.read()
+        print("Looking for data...")
         try:
+            print("Success")
             return alldata
         except:
+            print("Nonetype - not gatherable")
             return #This causes the UI to have the error of Nonetype. Dealt with using "try:"
 
 #connection1 = ssh("199.88.192.160", "<USERNAME>", "<PASSWORD>")
