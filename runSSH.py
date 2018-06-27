@@ -27,7 +27,7 @@ class ssh:
         try:
             return alldata
         except:
-            return 
+            return #This causes the UI to have the error of Nonetype. Dealt with using "try:"
 
 #connection1 = ssh("199.88.192.160", "<USERNAME>", "<PASSWORD>")
 #connection1.sendCommand("mkdir testfolder")
