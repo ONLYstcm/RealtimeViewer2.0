@@ -90,7 +90,8 @@ def viewerUI(path): #Path should be the compressed pol0.scio.bz2
 
         #Generates new line plot
         runGraph.Spectrogram.ax.clear()
-        runGraph.Spectrogram.ax.plot(freq, scioArr[-1], c='b')
+        runGraph.Spectrogram.ax.plot(freq[1:], scioArr[-1][1:], c='b') #The [1:] is used to remove the first data point
+        runGraph.Spectrogram.ax.set_ylim(top=110, bottom=50) #Fixes vertical axes
     except:
         pass
     #plt.draw()
@@ -133,7 +134,7 @@ def update(num):
         #####Gets Latest scio File#####
         ###############################
         #gets some root path with all the numbered folders (call this var path)
-        #Gives latest main folder
+        #Gives latest main folder 
         '''
         bLatest = timeSort(path)[-1]
         #Gives latest sub folder
