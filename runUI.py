@@ -93,11 +93,16 @@ def viewerUI(path): #Path should be the compressed pol0.scio.bz2
         #        scioArr[-1][i] -= 
         #Generates new line plot
         runGraph.Spectrogram.ax.clear()
+<<<<<<< HEAD
         runGraph.Spectrogram.ax.plot(freq[2:], scioArr[-1][2:], c='b')
         runGraph.Spectrogram.ax.set_title('Spectrogram')
         runGraph.Spectrogram.ax.set_xlabel('Frequency (Hz)')
         runGraph.Spectrogram.ax.set_ylabel('Intensity (dBm)')
         runGraph.Spectrogram.ax.set_ylim(top=-10, bottom=-90) #Limits
+=======
+        runGraph.Spectrogram.ax.plot(freq[1:], scioArr[-1][1:], c='b') #The [1:] is used to remove the first data point
+        runGraph.Spectrogram.ax.set_ylim(top=110, bottom=50) #Fixes vertical axes
+>>>>>>> 7939a0872425e28ac40bf13e89309fcaf88f9e07
     except:
         pass
     #plt.draw()
