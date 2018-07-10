@@ -75,7 +75,7 @@ def viewerUI(path): #Path should be the compressed pol0.scio.bz2
         freq = ratio*freq
 
         #Takes log base 10 of the values
-        scioArr = 10*np.log10(scioArr) 
+        scioArr = 10*np.log10(scioArr) - 147 #147 is the offset
 
         #Make first value 0 because this is the DC Voltage
         #for i in range(len(scioArr)):
@@ -87,10 +87,17 @@ def viewerUI(path): #Path should be the compressed pol0.scio.bz2
         #List comprehension takes average
         for i in range(len(scioArr[0])):
             newArr += [sum([scioArr[j][i] for j in range(len(scioArr))])/len(scioArr)]
-
+	
+	#Offset by 10
+        #for i in range(len(scioArr[-1])):
+        #        scioArr[-1][i] -= 
         #Generates new line plot
         runGraph.Spectrogram.ax.clear()
-        runGraph.Spectrogram.ax.plot(freq, scioArr[-1], c='b')
+        runGraph.Spectrogram.ax.plot(freq[2:], scioArr[-1][2:], c='b')
+        runGraph.Spectrogram.ax.set_title('Spectrogram')
+        runGraph.Spectrogram.ax.set_xlabel('Frequency (Hz)')
+        runGraph.Spectrogram.ax.set_ylabel('Intensity (dBm)')
+        runGraph.Spectrogram.ax.set_ylim(top=-10, bottom=-90) #Limits
     except:
         pass
     #plt.draw()
@@ -133,7 +140,7 @@ def update(num):
         #####Gets Latest scio File#####
         ###############################
         #gets some root path with all the numbered folders (call this var path)
-        #Gives latest main folder
+        #Gives latest main folder 
         '''
         bLatest = timeSort(path)[-1]
         #Gives latest sub folder
